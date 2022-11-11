@@ -1,88 +1,92 @@
 /*
 * This is the string blowup program
 *
-* @author  seti Ngabo
+* @author  Seti Ngabo
 * @version 11.0.16
 * @since   2022-10-10
 */
 
+import java.util.ArraysList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Collections;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * This is Main class.
+ * This is the Blowup class
  */
-final class Main {
-    private Main() {
-        throw new IllegalStateException("Cannot be instantiated");
-    }
-    public static void main(String[] args) {
-        // Input.
-        final Scanner scanner = new Scanner(System.in);
-        System.out.printf("Enter a string of characters and numbers: ");
-        final String inputString = scanner.nextLine();
 
-        final String[] textArr = inputString.split("");
-        final List<String> text = new ArrayList<String>();
-        Collections.addAll(text, textArr);
-
-        final ArrayList<String> newText = new ArrayList<String>();
-
-        for (int count = 0; count < text.size(); count++) {
-            final String item = text.get(count);
-            String newString = "";
-
-            // Checks if the item is not a number or the last item of the array.
-            if (!(isNumeric(item))) {
-                if (count - 1 != -1) {
-                    // Checks if the previous character is not a number.
-                    if (!(isNumeric(text.get(count - 1)))) {
-                        // Pushes the original character into the array.
-                        newString = item;
-                        newText.add(newString);
-                    }
-                } else {
-                    newString = item;
-                    newText.add(item);
-                }
-            } else {
-                // Checks if this item is the last one.
-                if (count + 1 < text.size()) {
-                    // This replaces the digit with
-                    // a number of characters or numbers.
-                    final int itemInt = Integer.parseInt(item);
-                    for (int count2 = 0; count2 < itemInt; count2++) {
-                        newString = newString.concat(text.get(count + 1));
-                    }
-                    // Skips to the item after the next one.
-                    if (!isNumeric(text.get(count + 1))) {
-                        text.remove(count);
-                    }
-                }
-
-                newText.add(newString);
-            }
+class Blowup {
+  /**
+   * The function replaces the number in the string to letters on its right.
+   *
+   */
+  static String blowup(String string) {
+    List<String> logic = new ArrayList<String>();
+    String firstString;
+    ArrayList<String> finalOutput = new ArrayList<String>();
+    String secondString;
+    int firstInt = -1;
+    int secondInt = -1;
+    final String outString;
+    logic = Arrays.asList(string.split(""));
+    for (int count = 0; count < logic.size(); count++) {
+      firstString = logic.get(count);
+      int newInt1 = 1;
+      int newInt2 = 1;
+      char newString = firstString.charAt(0);
+      if (Character.isDigit(newString)) {
+        newInt1 = 1;
+      } else {
+        newInt1 = 0;
+      }
+      // if the indexString is not the last character in the string
+      if (count + 1 != logic.size()) {
+        secondString = logic.get(count + 1);
+        char secondNewStr = secondString.charAt(0);
+        if (Character.isDigit(secondNewStr)) {
+          newInt2 = 1;
+        } else {
+          newInt2 = 0;
         }
-
-        // Output - joins the array and prints it out.
-        final String newTextString = String.join("", newText);
-        System.out.println(newTextString);
-
-        System.out.println("\nDone.");
+        // if the index is a number while a letter next to it
+        if (newInt1 == 1 && newInt2 == 0) {
+          firstInt = Integer.parseInt(firstString);
+          for (int i = 1; i < firstInt; i++) {
+            finalOutput.add(secondString);
+          }
+          continue;
+          // if two continue number
+        } else if (newInt1 == 1 && newInt2 == 1) {
+          continue;
+          // if index is a letter
+        } else {
+          finalOutput.add(firstString);
+          continue;
+        }
+      // if the indexString is the last character in the string
+      } else {
+        if (newInt1 == 1) {
+          continue;
+        } else {
+          finalOutput.add(firstString);
+        }
+      }
     }
+    outString = String.join("", finalOutput);
+    return outString;
+  }
 
-    /**
-     * The isNumeric() function.
-     *
-     * <p>Checks if the string is numerical.
-     * <p/>
-     *
-     * @param str String input
-     * @return a boolean
-     */
-    private static boolean isNumeric(String str) {
-        return str != null && str.matches("[0-9.]+");
+  public static void main(String[] args) {
+    String newStr;
+    Scanner ppr = new Scanner(System.in);
+    System.out.print("Enter any string with numbers: ");
+    String userInput = ppr.next();
+    if (userInput.equals(null)) {
+      System.out.println("\nInsert a string with numbers!");
+    } else {
+      newStr = blowup(userInput);
+      System.out.println(newStr);
     }
+    System.out.println("\nDone.");
+  }
 }
