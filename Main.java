@@ -6,20 +6,20 @@
 * @since   2022-10-10
 */
 
-import java.util.ArraysList;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 /**
- * This is the Blowup class
+ * This is the Blowup class.
  */
 
 class Blowup {
   /**
    * The function replaces the number in the string to letters on its right.
-   *
    */
+// process
   static String blowup(String string) {
     List<String> logic = new ArrayList<String>();
     String firstString;
@@ -39,7 +39,7 @@ class Blowup {
       } else {
         newInt1 = 0;
       }
-      // if the indexString is not the last character in the string
+      // if the firstString is not the last character in the string
       if (count + 1 != logic.size()) {
         secondString = logic.get(count + 1);
         char secondNewStr = secondString.charAt(0);
@@ -48,22 +48,18 @@ class Blowup {
         } else {
           newInt2 = 0;
         }
-        // if the index is a number while a letter next to it
         if (newInt1 == 1 && newInt2 == 0) {
           firstInt = Integer.parseInt(firstString);
           for (int i = 1; i < firstInt; i++) {
             finalOutput.add(secondString);
           }
           continue;
-          // if two continue number
         } else if (newInt1 == 1 && newInt2 == 1) {
           continue;
-          // if index is a letter
         } else {
           finalOutput.add(firstString);
           continue;
         }
-      // if the indexString is the last character in the string
       } else {
         if (newInt1 == 1) {
           continue;
@@ -76,6 +72,7 @@ class Blowup {
     return outString;
   }
 
+// Input & Output
   public static void main(String[] args) {
     String newStr;
     Scanner ppr = new Scanner(System.in);
